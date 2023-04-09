@@ -1,0 +1,33 @@
+//given a number x and return true if x is a palindrome
+
+//initial possible solution convert to string and using two pointer
+/**
+ * @param {number} x
+ * @return {boolean}
+ */
+var isPalindrome = function(x) {
+    if(x<0){return(false)}
+    let y = x.toString()
+    let i = 0
+    let j = (y.length-1)
+    for (; i<j;i++) {
+        if(y[i]!==y[j]){return(false)}
+        j--
+    }
+    return(true)
+};
+
+// //other possible solution (without converting to string)
+// /**
+//  * @param {number} x
+//  * @return {boolean}
+//  */
+// var isPalindrome = function(x) {
+//     if(x<0 || (x!=0 && x%10 == 0) ){return(false)}
+//     let half = 0
+//     while (x>half){
+//         half = half*10 + x%10
+//         x /= 10
+//     }
+//     return(x==half || x==(half/10))
+// };
