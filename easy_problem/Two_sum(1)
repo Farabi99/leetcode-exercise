@@ -1,0 +1,51 @@
+// given an array of integers {i} and an integer x, twosum should return indices of two number from {i} that adds up to x
+// prohibited assumption: each input have exactly one solution
+
+//initial possible solution (double loop O(n^2))
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    let solution = []
+    for(let i=0; i<nums.length;i++){
+        for(let j=i+1; j<nums.length;j++)
+        if(nums[i]+nums[j] == target){
+            solution.push(i)
+            solution.push(j)
+            return(solution)
+        }
+    }
+};
+
+//optimization with hashmap O(n) 
+
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+var twoSum = function(nums, target) {
+    let solution = []
+    const maps = new Map()
+    for(let i=0; i<nums.length;i++){
+        let num = nums[i]
+        let rem = target - num
+        if(maps.has(rem)){
+          let j = maps.get(rem)
+          if(i<j){
+            solution.push(i)
+            solution.push(j)
+          }else{
+            solution.push(j)
+            solution.push(i)
+          }
+          return(solution)
+        }
+        else{
+            maps.set(num,i)
+        }
+    }
+};
