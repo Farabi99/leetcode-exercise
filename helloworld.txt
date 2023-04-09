@@ -1,0 +1,2 @@
+This is the hello world of my leetcode exercise that hopefully makes me better at programming
+Even though this just another baby steps i just want to make it
