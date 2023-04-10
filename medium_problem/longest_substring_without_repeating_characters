@@ -1,0 +1,24 @@
+//given a string s return the length of the longest substring without repeating characters
+
+//initial solution with temp substring
+/**
+ * @param {string} s
+ * @return {number}
+ */
+var lengthOfLongestSubstring = function(s) {
+    let maxlen = 0
+    let temp = ""
+    let templen = 0
+    for(let i=0;i < s.length;i++){
+        if(temp.indexOf(s[i])>=0){
+            templen=temp.length
+            maxlen=Math.max(templen, maxlen)
+            temp=temp.slice(temp.indexOf(s[i])+1)
+        }
+        temp = temp.concat(s[i])
+        templen++
+        // console.log(temp)
+        maxlen=Math.max(temp.length, maxlen)
+    }
+    return maxlen
+};
