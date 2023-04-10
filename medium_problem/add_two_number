@@ -1,0 +1,34 @@
+// given two non empty non negative linked-list return the sum of the two as linked-list 
+
+//solution with recursive approach
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+ let x = 0 //as carrier
+var addTwoNumbers = function(l1, l2) {
+    //base for recursive
+    if(!l1 && !l2 && x===0){return null}
+    //check the l1 and l2 is null or not
+    let a = l1 ? l1.val : 0
+    let b = l2 ? l2.val : 0
+    //check the next of the list is null or not  
+    let nextl1 = l1 ? l1.next : null
+    let nextl2 = l2 ? l2.next : null
+    
+    let sum = a + b + x
+    x = Math.floor(sum/10)
+    sum = sum % 10
+    return{
+        val : sum,
+        next : addTwoNumbers(nextl1,nextl2)
+    }
+};
