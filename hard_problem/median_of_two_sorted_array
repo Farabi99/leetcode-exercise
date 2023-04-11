@@ -1,0 +1,154 @@
+//Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+
+//initial possible solution iterating array index with merging two array 
+
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var findMedianSortedArrays = function(nums1, nums2) {
+    let merge = []
+    let first =[]
+    let second =[]
+    //first should be shorter than second
+    if(nums1.length<=nums2.length){
+        first = nums1
+        second = nums2
+    }else{
+        first = nums2
+        second = nums1
+    }
+    let len = nums1.length + nums2.length
+    let i = 0
+    let j = 0
+    for(let k=0;k<len;k++){
+        if (first[i]<=second[j] && first[i] !== null){
+            merge[k] = first[i]
+            i++
+        }else if(second[j] == null){
+            merge[k] = first[i]
+            i++
+        }else{
+            merge[k] = second[j]
+            j++
+        }
+    }
+    if(len%2===0){
+        return((merge[len/2] + merge[(len/2)-1])/2)
+    }else{
+        return(merge[Math.floor(len/2)])
+    }
+};
+
+//second possible solution with iterating array index without merging two array 
+
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var findMedianSortedArrays = function(nums1, nums2) {
+    let len = nums1.length + nums2.length
+    let first =[]
+    let second =[]
+    //first should be shorter than second
+    if(nums1.length<=nums2.length){
+        first = nums1
+        second = nums2
+    }else{
+        first = nums2
+        second = nums1
+    }
+    let i = 0
+    let j = 0
+    //check is even or not
+    if(len%2 == 0){
+        let temp1 = -1
+        let temp2 = -1
+        for(let k = 0;k<=len/2;k++){
+            if (first[i]<=second[j] && first[i] !== null){
+                temp1 = temp2
+                temp2 = first[i]
+                i++
+            }else if(second[j] == null){
+                temp1 = temp2
+                temp2 = first[i]
+                i++
+            }else{
+                temp1 = temp2
+                temp2 = second[j]
+                j++
+            }
+        }
+        return((temp2+temp1)/2)
+    }else{
+        let temp = -1
+        for(let k = 0;k<=len/2;k++){
+            if (first[i]<=second[j] && first[i] !== null){
+                temp = first[i]
+                i++
+            }else if(second[j] === null){
+                temp = first[i]
+                i++
+            }else{
+                temp = second[j]
+                j++
+            }
+        }
+        return temp
+    }
+};
+
+//third possible solution with binary search
+
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var findMedianSortedArrays = function(nums1, nums2) {
+    let first = (nums1.length <= nums2.length) ? nums1 : nums2
+    let second = (nums1.length <= nums2.length) ? nums2 : nums1
+    const low = -9999999
+    const high = 9999999
+    console.log(first)
+    console.log(second)
+    let len = first.length+second.length
+    let mid = Math.floor((len)/2)
+    //init the required pointer
+    let l = 0
+    let r = first.length-1
+    for(let maximus =0; maximus<len;maximus++){
+        //init the required middle pointer
+        let midFirst = Math.floor((l+r)/2)
+        let midSecond = mid - midFirst - 2
+        console.log("midfirst ",midFirst)
+        console.log("midsecond ",midSecond)
+        //init the value for adjusting partition
+        let firstLeftVal = (midFirst >= 0) ? first[midFirst] : low
+        let firstRightVal = ((midFirst+1) < first.length) ?  first[midFirst+1] : high
+        let secondLeftVal = (midSecond >= 0) ?  second[midSecond] : low
+        let secondRightVal = ((midSecond+1) < second.length) ?  second[midSecond+1] : high
+        console.log("firstLeftVal ",firstLeftVal)
+        console.log("firstRightVal ",firstRightVal)
+        console.log("secondLeftVal ",secondLeftVal)
+        console.log("secondRightVal ",secondRightVal)
+        //checking the partition
+        if(firstLeftVal <= secondRightVal && secondLeftVal <= firstRightVal ) {
+            //case odd
+            if(len % 2 != 0){
+                return(Math.min(firstRightVal,secondRightVal))
+            }else{
+                let rightval = Math.max(firstLeftVal,secondLeftVal)
+                let leftval = Math.min(firstRightVal,secondRightVal)
+                return((rightval+leftval)/2)
+            }
+        }else if(firstLeftVal>secondRightVal){ //fisrt partition too big
+            r = midFirst - 1
+        }else{ //first partition too small
+            l = midFirst + 1
+        }
+    }
+    return("notfound") //if can't find number
+};
